@@ -4,10 +4,10 @@ function getPostData(req) {
             resolve({})
             return
         }
-        // if (req.headers['Content-Type'] !== 'application/json') {
-        //     resolve({})
-        //     return
-        // }
+        if (req.headers['content-type'] !== 'application/json') {
+            resolve({})
+            return
+        }
         let postdata = ''
         req.on('data', (chunk) => {
             postdata += chunk.toString()

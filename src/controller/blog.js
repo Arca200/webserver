@@ -1,11 +1,8 @@
-const {exec} = require('../../mysql/index')
-const getList = (author, keyword) => {
+const {exec} = require('../../db/mysql')
+const getList = (author) => {
     let sql = `select id,title,content,createtime,author from blog where state = 1`
     if (author) {
         sql += ` and author='${author}'`
-    }
-    if (keyword) {
-        sql += ` and title like '%${keyword}%'`
     }
     sql += ` order by createtime desc;`
     return exec(sql)
@@ -40,21 +37,13 @@ const updateBlog = (id, blogData = {}) => {
     }
     sql += ` where id="${id}"`
     return exec(sql).then(insertData => {
-        if (insertData.affectedRows > 0) {
-            return true
-        } else {
-            return false
-        }
+        return insertData.affectedRows > 0;
     })
 }
 const delBlog = (id, author) => {
     let sql = `delete from blog where id ="${id}" and author="${author}"`
     return exec(sql).then(deleteData => {
-        if (deleteData.affectedRows > 0) {
-            return true
-        } else {
-            return false
-        }
+        return deleteData.affectedRows > 0;
     })
 }
 module.exports = {
